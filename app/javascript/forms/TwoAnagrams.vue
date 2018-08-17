@@ -30,7 +30,7 @@
           <v-btn
             dark
             flat
-            @click="snackbar = false">
+            @click="alert = false">
             Close
           </v-btn>
         </v-snackbar>
