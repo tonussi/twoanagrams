@@ -7,17 +7,28 @@
 
 import Vue from 'vue'
 import App from '../app.vue'
+import Vuetify from 'vuetify'
+ 
+Vue.use(Vuetify)
+
+// document.addEventListener('DOMContentLoaded', () => {
+//   const el = document.body.appendChild(document.createElement('hello'))
+//   const app = new Vue({
+//     el,
+//     render: h => h(App)
+//   })
+
+//   console.log(app)
+// })
 
 document.addEventListener('DOMContentLoaded', () => {
-  const el = document.body.appendChild(document.createElement('hello'))
-  const app = new Vue({
-    el,
+  var app = new Vue({
+    el: '#app',
     render: h => h(App)
   })
 
   console.log(app)
 })
-
 
 // The above code uses Vue without the compiler, which means you cannot
 // use Vue to target elements in your existing html templates. You would

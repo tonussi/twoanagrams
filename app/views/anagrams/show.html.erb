@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Firstword:</strong>
+  <%= @anagram.firstword %>
+</p>
+
+<p>
+  <strong>Secondword:</strong>
+  <%= @anagram.secondword %>
+</p>
+
+<p>
+  <strong>Matching:</strong>
+  <%= @anagram.matching %>
+</p>
+
+<%= link_to 'Edit', edit_anagram_path(@anagram) %> |
+<%= link_to 'Back', anagrams_path %>

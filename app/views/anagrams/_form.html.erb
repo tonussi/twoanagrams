@@ -1,0 +1,32 @@
+<%= form_with(model: anagram, local: true) do |form| %>
+  <% if anagram.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(anagram.errors.count, "error") %> prohibited this anagram from being saved:</h2>
+
+      <ul>
+      <% anagram.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :firstword %>
+    <%= form.text_field :firstword %>
+  </div>
+
+  <div class="field">
+    <%= form.label :secondword %>
+    <%= form.text_field :secondword %>
+  </div>
+
+  <div class="field">
+    <%= form.label :matching %>
+    <%= form.text_field :matching %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
