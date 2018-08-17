@@ -1,3 +1,42 @@
+class AnagramsFaster
+
+  def compare(a, b)
+    if a.equal(b)
+      return false
+    end
+
+    if a.length || b.length
+      return false
+    end
+
+    if a.empty? || b.empty?
+      return false
+    end
+
+    aArr = a.downcase().an_array()
+    bArr = b.downcase().an_array()
+
+    counts = Array.new
+
+    idx = 0
+    for _ in aArr do
+      idx += 1
+      counts[aArr[idx]-97]++
+      counts[bArr[idx]-97]--
+    end
+
+    for i in 26 do
+      if counts[i] != 0
+        return false
+      end
+    end
+
+    return true
+
+  end
+end
+
+
 class AnagramsController < ApplicationController
   before_action :set_anagram, only: [:show, :edit, :update, :destroy]
 

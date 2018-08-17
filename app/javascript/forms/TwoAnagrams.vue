@@ -44,13 +44,18 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   data() {
     return {
       valid: false,
       alert: false,
+      error: [],
       firstword: '',
       secondword: '',
+      matching: false,
+      editedItem: undefined,
       alertmsg: ``,
       timeout: 6000,
       // wordRules: [
@@ -63,12 +68,25 @@ export default {
       if (this.firstword.length != this.secondword.length) {
         this.alertmsg = "First and Second Must Be Equal In Length."
         this.alert = true
+        return false;
       } else {
         this.alert = false
+        return true;
       }
     },
     submit() {
-      this.verifyWords()
+      if (this.verifyWords() != true) {
+        return;
+      } else {
+        this.editedItem = {
+          firstword: this.firstword,
+          secondword: this.secondword
+        }
+        axios.post('/anagrams', this.editedItem).then(function (resp) {
+        }).catch(e => {
+          this.error.push(e)
+        })
+      }
     },
     clear() {
       this.firstword = ''

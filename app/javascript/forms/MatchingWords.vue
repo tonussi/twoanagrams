@@ -34,9 +34,9 @@ export default {
     })
   },
   methods: {
-      getThisMatching(anagram) {
-          this.anagram_sep = anagram
-      }
+    getThisMatching(anagram) {
+        this.anagram_sep = anagram
+    }
   }
 }
 </script>
