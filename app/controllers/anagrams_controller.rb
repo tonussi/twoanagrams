@@ -1,49 +1,25 @@
-class AnagramsFaster
-
-  def compare(a, b)
-    if a.equal(b)
-      return false
-    end
-
-    if a.length || b.length
-      return false
-    end
-
-    if a.empty? || b.empty?
-      return false
-    end
-
-    aArr = a.downcase().an_array()
-    bArr = b.downcase().an_array()
-
-    counts = Array.new
-
-    idx = 0
-    for _ in aArr do
-      idx += 1
-      counts[aArr[idx]-97]++
-      counts[bArr[idx]-97]--
-    end
-
-    for i in 26 do
-      if counts[i] != 0
-        return false
+class AnagramsChecker
+  def anagrams?(word1, word2)
+    if ((word1 == "") || (word2 == ""))
+      false
+    else
+      word_count_1 = word1.chars.sort
+      word_count_2 = word2.chars.sort
+      if word_count_1 == word_count_2
+        true
       end
     end
-
-    return true
-
   end
 end
 
-
 class AnagramsController < ApplicationController
   before_action :set_anagram, only: [:show, :edit, :update, :destroy]
+  skip_before_action :verify_authenticity_token
 
   # GET /anagrams
   # GET /anagrams.json
   def index
-    @anagrams = Anagram.all
+    @anagrams = Anagram.all.order('created_at DESC')
   end
 
   # GET /anagrams/1
@@ -63,6 +39,7 @@ class AnagramsController < ApplicationController
   # POST /anagrams
   # POST /anagrams.json
   def create
+    anagram_params[:matching] = AnagramsChecker.new.anagrams?(anagram_params[:firstword], anagram_params[:secondword])
     @anagram = Anagram.new(anagram_params)
 
     respond_to do |format|

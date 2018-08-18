@@ -54,13 +54,8 @@ export default {
       error: [],
       firstword: '',
       secondword: '',
-      matching: false,
-      editedItem: undefined,
       alertmsg: ``,
-      timeout: 6000,
-      // wordRules: [
-      //   v => this.getLengthsCompared() || 'First and Second Must Be Equal In Length!'
-      // ]
+      timeout: 6000
     }
   },
   methods: {
@@ -76,13 +71,17 @@ export default {
     },
     submit() {
       if (this.verifyWords() != true) {
+        console.log("Wrong Lengthies")
         return;
       } else {
-        this.editedItem = {
+        console.log("Right Lengthies")
+        const editedItem = {
           firstword: this.firstword,
-          secondword: this.secondword
+          secondword: this.secondword,
+          matching: false
         }
-        axios.post('/anagrams', this.editedItem).then(function (resp) {
+        axios.post('http://localhost:3000/anagrams.json', editedItem).then(function (resp) {
+          this.$root.$emit('myEvent', 'new message!')
         }).catch(e => {
           this.error.push(e)
         })

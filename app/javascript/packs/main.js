@@ -22,6 +22,7 @@ Vue.use(Vuetify)
 // })
 
 document.addEventListener('DOMContentLoaded', () => {
+
   var app = new Vue({
     el: '#app',
     render: h => h(App)
