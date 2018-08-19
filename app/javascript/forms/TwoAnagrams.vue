@@ -104,6 +104,17 @@ export default {
         return false;
       }
     },
+    verifyNumberValue() {
+      if (!isNaN(this.firstword) || !isNaN(this.secondword)) {
+        this.alertmsg = "First and Second Words Must Not Be Numbers.";
+        this.alertcolor = "brown darken-2";
+        this.alert = true;
+        return true;
+      } else {
+        this.alert = false;
+        return false;
+      }
+    },
     emitPushElementToMatchingHistory() {
       this.$root.$emit("PushElementToMatchingHistory", this.editedItem);
     },
@@ -113,6 +124,8 @@ export default {
       } else if (this.verifyQuantity()) {
         return;
       } else if (this.verifyEqualWords()) {
+        return;
+      } else if (this.verifyNumberValue()) {
         return;
       } else {
         this.editedItem = {
