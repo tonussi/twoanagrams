@@ -123,7 +123,7 @@ export default {
           updated_at: new Date()
         };
         axios
-          .post("http://localhost:3000/anagrams.json", this.editedItem)
+          .post("/anagrams.json", this.editedItem)
           .catch(e => {
             this.error.push(e);
           });

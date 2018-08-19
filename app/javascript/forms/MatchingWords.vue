@@ -45,7 +45,7 @@ export default {
     },
     updateAnagramsLeftList() {
       axios
-        .get("http://localhost:3000/anagrams.json")
+        .get("/anagrams.json")
         .then(response => {
           this.anagrams = response.data;
         })
