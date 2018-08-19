@@ -9,6 +9,7 @@
           <p>This software gets two words and check if they are anagrams between them.</p>
           <v-alert value="true" type="info" outline>Words with less than 2 characters will not be accepted.</v-alert>
           <v-alert value="true" type="info" outline>Words that do not match the same length will not be accepted.</v-alert>
+          <v-alert value="true" type="info" outline>Integers will not be accepted. But something similar f9000e should pass.</v-alert>
         </v-flex>
         <v-flex>
           <v-text-field
