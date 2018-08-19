@@ -1,6 +1,6 @@
 <template>
   <v-app id="inspire" dark>
-    <v-navigation-drawer v-model="drawer" clipped fixed app>
+    <v-navigation-drawer width="600" v-model="drawer" clipped fixed app>
       <div v-if="drawer">
         <matching-words></matching-words>
       </div>
