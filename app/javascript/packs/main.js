@@ -8,8 +8,14 @@
 import Vue from 'vue'
 import App from '../app.vue'
 import Vuetify from 'vuetify'
+import moment from 'moment';
 
 Vue.use(Vuetify)
+
+Vue.filter('formatdate', function(value) {
+  if (!value) return '';
+  return moment(String(value), "YYYY-MM-DD HH:mm:ss").locale('en').format('LL');
+});
 
 // document.addEventListener('DOMContentLoaded', () => {
 //   const el = document.body.appendChild(document.createElement('hello'))
