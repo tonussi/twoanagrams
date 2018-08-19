@@ -46,9 +46,9 @@ class AnagramsController < ApplicationController
   # POST /anagrams
   # POST /anagrams.json
   def create
-    matchingresult = AnagramsChecker.new.anagrams?(anagram_params[:firstword], anagram_params[:secondword]) ? true : false
-
     @anagram = Anagram.new(anagram_params)
+
+    matchingresult = AnagramsChecker.new.anagrams?(anagram_params[:firstword], anagram_params[:secondword]) ? true : false
     @anagram.matching = matchingresult
 
     # byebug
@@ -67,6 +67,9 @@ class AnagramsController < ApplicationController
   # PATCH/PUT /anagrams/1
   # PATCH/PUT /anagrams/1.json
   def update
+    matchingresult = AnagramsChecker.new.anagrams?(anagram_params[:firstword], anagram_params[:secondword]) ? true : false
+    @anagram.matching = matchingresult
+
     respond_to do |format|
       if @anagram.update(anagram_params)
         format.html { redirect_to @anagram, notice: 'Anagram was successfully updated.' }
