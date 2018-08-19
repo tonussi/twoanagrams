@@ -100,6 +100,6 @@ production:
   url: <%= ENV['DATABASE_URL'] %>
 ```
 
-To deploy into heroku you need just to do:
+## To deploy into heroku you need just to do:
 
 `git push heroku master`
