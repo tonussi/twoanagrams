@@ -2,21 +2,20 @@
     <div id="anagrams">
         <v-subheader>History</v-subheader>
         <v-divider></v-divider>
-        <v-list dense>
-            <div v-for="(anagram, index) in anagrams" :key="anagram.id + '_' + index">
+        <v-list two-line>
+            <div v-for="(anagram, index) in anagrams" :key="anagram.firstword + '-' + anagram.secondword + '-' + index">
                 <v-list-tile @click="getThisMatching(anagram)">
                     <v-list-tile-action>
                         <v-flex v-if="anagram.matching">
-                            <v-icon medium>mood</v-icon>
+                            <v-icon title="Match as Anagrams" medium>mood</v-icon>
                         </v-flex>
                         <v-flex v-else>
-                            <v-icon medium>mood_bad</v-icon>
+                            <v-icon title="Don't Match as Anagrams" medium>mood_bad</v-icon>
                         </v-flex>
                     </v-list-tile-action>
                     <v-list-tile-content>
-                        <v-subheader>{{anagram.firstword}}</v-subheader>
-                        <v-subheader>{{anagram.secondword}}</v-subheader>
-                        <v-subheader>{{anagram.created_at}}</v-subheader>
+                        <v-list-tile-title>"{{anagram.firstword}}" <i>and</i>&nbsp;&nbsp;"{{anagram.secondword}}"</v-list-tile-title>
+                        <v-list-tile-sub-title>{{anagram.created_at}}</v-list-tile-sub-title>
                     </v-list-tile-content>
                 </v-list-tile>
             </div>
@@ -25,30 +24,35 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 
 export default {
+  name: "MatchingWords",
   data: () => ({
-    anagram_sep: undefined,
-    anagrams: [],
-    message: undefined
+    anagrams: []
   }),
   created() {
-    axios.get('http://localhost:3000/anagrams.json').then(response => {
-        this.anagrams = response.data
-    }).catch(e => {
-        this.error.push(e)
-    })
+    this.updateAnagramsLeftList();
   },
-  mounted: function () {
-      this.$root.$on('myEvent', (text) => {
-      this.message = text
-    })
+  mounted() {
+    this.$root.$on("PushElementToMatchingHistory", payloadMessage => {
+      this.anagrams.unshift(payloadMessage);
+    });
   },
   methods: {
     getThisMatching(anagram) {
-        this.anagram_sep = anagram
+      this.$root.$emit("FillFormAtTwoAnagrams", anagram);
+    },
+    updateAnagramsLeftList() {
+      axios
+        .get("http://localhost:3000/anagrams.json")
+        .then(response => {
+          this.anagrams = response.data;
+        })
+        .catch(e => {
+          this.error.push(e);
+        });
     }
   }
-}
+};
 </script>

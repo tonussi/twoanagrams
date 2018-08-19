@@ -1,37 +1,37 @@
 <template>
   <v-app id="inspire" dark>
     <v-navigation-drawer v-model="drawer" clipped fixed app>
-      <matching-words></matching-words>
+      <div v-if="drawer">
+        <matching-words></matching-words>
+      </div>
     </v-navigation-drawer>
     <v-toolbar app fixed clipped-left>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title>Application</v-toolbar-title>
+      <v-toolbar-title>Anagrams Matcher App</v-toolbar-title>
     </v-toolbar>
     <v-content>
       <two-anagrams></two-anagrams>
     </v-content>
     <v-footer app fixed>
+      <v-spacer></v-spacer>
       <v-subheader>&copy; Copyleft Rails App @ 2018</v-subheader>
     </v-footer>
   </v-app>
 </template>
 
 <script>
-import TwoAnagrams from "./forms/TwoAnagrams.vue"
-import MatchingWords from "./forms/MatchingWords.vue"
+import TwoAnagrams from "./forms/TwoAnagrams.vue";
+import MatchingWords from "./forms/MatchingWords.vue";
 
 export default {
   data: () => ({
     drawer: true
   }),
-  props: {
-    source: String
-  },
   components: {
     TwoAnagrams,
     MatchingWords
   }
-}
+};
 </script>
 
 <!--

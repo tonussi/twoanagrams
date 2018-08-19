@@ -5,8 +5,10 @@
         <v-flex>
           <h1>Two Anagrams</h1>
         </v-flex>
-        <v-flex>
+        <v-flex class="pa-4 ma-4">
           <p>This software gets two words and check if they are anagrams between them.</p>
+          <v-alert value="true" type="info" outline>Words with less than 2 characters will not be accepted.</v-alert>
+          <v-alert value="true" type="info" outline>Words that do not match the same length will not be accepted.</v-alert>
         </v-flex>
         <v-flex>
           <v-text-field
@@ -24,7 +26,7 @@
         </v-flex>
         <v-snackbar
           v-model="alert"
-          color="pink lighten-2"
+          :color="alertcolor"
           :timeout="timeout">
           {{ alertmsg }}
           <v-btn
@@ -44,53 +46,94 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 
 export default {
+  name: "TwoAnagrams",
   data() {
     return {
       valid: false,
       alert: false,
       error: [],
-      firstword: '',
-      secondword: '',
+      firstword: "",
+      secondword: "",
       alertmsg: ``,
-      timeout: 6000
-    }
+      alertcolor: "",
+      timeout: 6000,
+      editedItem: undefined
+    };
+  },
+  mounted() {
+    this.$root.$on("FillFormAtTwoAnagrams", payloadMessage => {
+      this.firstword = payloadMessage.firstword;
+      this.secondword = payloadMessage.secondword;
+    });
   },
   methods: {
-    verifyWords() {
+    verifyWordsLengthies() {
       if (this.firstword.length != this.secondword.length) {
-        this.alertmsg = "First and Second Must Be Equal In Length."
-        this.alert = true
-        return false;
-      } else {
-        this.alert = false
+        this.alertmsg = "First and Second Word Must Be Equal In Length.";
+        this.alertcolor = "pink darken-2";
+        this.alert = true;
         return true;
+      } else {
+        this.alert = false;
+        return false;
       }
+    },
+    verifyQuantity() {
+      if (this.firstword.length <= 2 || this.secondword.length <= 2) {
+        this.alertmsg =
+          "First and Second Words Must Have More Than 2 Characters Each.";
+        this.alertcolor = "cyan darken-2";
+        this.alert = true;
+        return true;
+      } else {
+        this.alert = false;
+        return false;
+      }
+    },
+    verifyEqualWords() {
+      if (this.firstword === this.secondword) {
+        this.alertmsg = "First and Second Words Must Not Be Equal.";
+        this.alertcolor = "teal darken-2";
+        this.alert = true;
+        return true;
+      } else {
+        this.alert = false;
+        return false;
+      }
+    },
+    emitPushElementToMatchingHistory() {
+      this.$root.$emit("PushElementToMatchingHistory", this.editedItem);
     },
     submit() {
-      if (this.verifyWords() != true) {
-        console.log("Wrong Lengthies")
+      if (this.verifyWordsLengthies()) {
+        return;
+      } else if (this.verifyQuantity()) {
+        return;
+      } else if (this.verifyEqualWords()) {
         return;
       } else {
-        console.log("Right Lengthies")
-        const editedItem = {
+        this.editedItem = {
           firstword: this.firstword,
           secondword: this.secondword,
-          matching: false
-        }
-        axios.post('http://localhost:3000/anagrams.json', editedItem).then(function (resp) {
-          this.$root.$emit('myEvent', 'new message!')
-        }).catch(e => {
-          this.error.push(e)
-        })
+          matching: undefined,
+          created_at: new Date(),
+          updated_at: new Date()
+        };
+        axios
+          .post("http://localhost:3000/anagrams.json", this.editedItem)
+          .catch(e => {
+            this.error.push(e);
+          });
       }
+      this.emitPushElementToMatchingHistory();
     },
     clear() {
-      this.firstword = ''
-      this.secondword = ''
+      this.firstword = "";
+      this.secondword = "";
     }
   }
-}
+};
 </script>

@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     render: h => h(App)
   })
 
-  console.log(app)
+  // console.log(app)
 })
 
 // The above code uses Vue without the compiler, which means you cannot

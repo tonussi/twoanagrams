@@ -1,6 +1,12 @@
 class AnagramsChecker
   def anagrams?(word1, word2)
-    if ((word1 == "") || (word2 == ""))
+    if word1 == "" || word2 == ""
+      false
+    elsif word1.length <= 2 || word2.length <= 2
+      false
+    elsif word1.length != word2.length
+      false
+    elsif word1.equal?(word2)
       false
     else
       word_count_1 = word1.chars.sort
@@ -8,6 +14,7 @@ class AnagramsChecker
       if word_count_1 == word_count_2
         true
       end
+      # byebug
     end
   end
 end
@@ -39,8 +46,12 @@ class AnagramsController < ApplicationController
   # POST /anagrams
   # POST /anagrams.json
   def create
-    anagram_params[:matching] = AnagramsChecker.new.anagrams?(anagram_params[:firstword], anagram_params[:secondword])
+    matchingresult = AnagramsChecker.new.anagrams?(anagram_params[:firstword], anagram_params[:secondword]) ? true : false
+
     @anagram = Anagram.new(anagram_params)
+    @anagram.matching = matchingresult
+
+    # byebug
 
     respond_to do |format|
       if @anagram.save
