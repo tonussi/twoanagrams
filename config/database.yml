@@ -24,6 +24,8 @@ default: &default
 development:
   <<: *default
   database: twoanagrams_dev
+  username: <%= ENV['TWOANAGRAMS_DATABASE_USER'] %>
+  password: <%= ENV['TWOANAGRAMS_DATABASE_PASSWORD'] %>
 
 # The specified database role being used to connect to postgres.
 # To create additional roles in postgres see `$ createuser --help`.
@@ -82,5 +84,5 @@ test:
 production:
   <<: *default
   database: twoanagrams_prod
-  username: cilhrpdylrwbss
+  username: <%= ENV['TWOANAGRAMS_DATABASE_USER'] %>
   password: <%= ENV['TWOANAGRAMS_DATABASE_PASSWORD'] %>
