@@ -10,6 +10,7 @@
           <v-alert value="true" type="info" outline>Words with less than 2 characters will not be accepted.</v-alert>
           <v-alert value="true" type="info" outline>Words that do not match the same length will not be accepted.</v-alert>
           <v-alert value="true" type="info" outline>Integers will not be accepted. But something similar f9000e should pass.</v-alert>
+          <v-alert value="true" type="warning" outline>This matcher consider case sensitive anagram mode. Meaning that the case matters for words.</v-alert>
         </v-flex>
         <v-flex>
           <v-text-field
