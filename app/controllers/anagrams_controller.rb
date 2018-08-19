@@ -1,14 +1,10 @@
-class AnagramsChecker
-  def self.regex_is_number?(word1)
-    no_commas =  word1.gsub(',', '')
-    matches = no_commas.match(/-?\d+(?:\.\d+)?/)
-    if !matches.nil? && matches.size == 1 && matches[0] == no_commas
-      true
-    else
-      false
-    end
+class String
+  def numeric?
+    Float(self) != nil rescue false
   end
+end
 
+class AnagramsChecker
   def anagrams?(word1, word2)
     if word1 == "" || word2 == ""
       false
@@ -18,7 +14,7 @@ class AnagramsChecker
       false
     elsif word1.equal?(word2)
       false
-    elsif this.class.regex_is_number?(word1) || this.class.regex_is_number?(word2)
+    elsif word1.numeric? || word2.numeric?
       false
     else
       word_count_1 = word1.chars.sort
