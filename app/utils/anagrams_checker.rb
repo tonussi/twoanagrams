@@ -1,4 +1,4 @@
-require_relative '../extensions/extension_string'
+# require_relative '../extensions/extension_string'
 
 # Anagrams Checker
 class AnagramsChecker

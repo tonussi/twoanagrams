@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../utils/anagrams_checker'
+# require_relative '../utils/anagrams_checker'
 
 # Two Anagrams Matcher Controller
 class AnagramsController < ApplicationController
