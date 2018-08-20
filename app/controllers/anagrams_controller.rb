@@ -1,34 +1,10 @@
-class String
-  def numeric?
-    Float(self) != nil rescue false
-  end
-end
+# frozen_string_literal: true
 
-class AnagramsChecker
-  def anagrams?(word1, word2)
-    if word1 == "" || word2 == ""
-      false
-    elsif word1.length <= 2 || word2.length <= 2
-      false
-    elsif word1.length != word2.length
-      false
-    elsif word1.equal?(word2)
-      false
-    elsif word1.numeric? || word2.numeric?
-      false
-    else
-      word_count_1 = word1.chars.sort
-      word_count_2 = word2.chars.sort
-      if word_count_1 == word_count_2
-        true
-      end
-      # byebug
-    end
-  end
-end
+require_relative '../utils/anagrams_checker'
 
+# Two Anagrams Matcher Controller
 class AnagramsController < ApplicationController
-  before_action :set_anagram, only: [:show, :edit, :update, :destroy]
+  before_action :set_anagram, only: %i[show edit update destroy]
   skip_before_action :verify_authenticity_token
 
   # GET /anagrams
@@ -39,8 +15,7 @@ class AnagramsController < ApplicationController
 
   # GET /anagrams/1
   # GET /anagrams/1.json
-  def show
-  end
+  def show; end
 
   # GET /anagrams/new
   def new
@@ -48,15 +23,15 @@ class AnagramsController < ApplicationController
   end
 
   # GET /anagrams/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /anagrams
   # POST /anagrams.json
   def create
     @anagram = Anagram.new(anagram_params)
-
-    matchingresult = AnagramsChecker.new.anagrams?(anagram_params[:firstword], anagram_params[:secondword]) ? true : false
+    word1 = anagram_params[:firstword]
+    word2 = anagram_params[:secondword]
+    matchingresult = AnagramsChecker.anagrams?(word1, word2)
     @anagram.matching = matchingresult
 
     # byebug
@@ -75,7 +50,9 @@ class AnagramsController < ApplicationController
   # PATCH/PUT /anagrams/1
   # PATCH/PUT /anagrams/1.json
   def update
-    matchingresult = AnagramsChecker.new.anagrams?(anagram_params[:firstword], anagram_params[:secondword]) ? true : false
+    word1 = anagram_params[:firstword]
+    word2 = anagram_params[:secondword]
+    matchingresult = AnagramsChecker.anagrams?(word1, word2)
     @anagram.matching = matchingresult
 
     respond_to do |format|
@@ -100,13 +77,14 @@ class AnagramsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_anagram
-      @anagram = Anagram.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def anagram_params
-      params.require(:anagram).permit(:firstword, :secondword, :matching)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_anagram
+    @anagram = Anagram.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def anagram_params
+    params.require(:anagram).permit(:firstword, :secondword, :matching)
+  end
 end
